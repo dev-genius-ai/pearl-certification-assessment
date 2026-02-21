@@ -53,6 +53,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     except OSError as exc:
         print(f"error: cannot read {args.input}: {exc}", file=sys.stderr)
         return 2
+    except UnicodeDecodeError:
+        print(f"error: cannot read {args.input}: not UTF-8 text", file=sys.stderr)
+        return 2
 
     scorer = get_scorer(args.scorer)
     try:
@@ -75,7 +78,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.stdout:
         sys.stdout.write(format_assignment(assignment))
     else:
-        write_assignment(args.output, assignment)
+        try:
+            write_assignment(args.output, assignment)
+        except OSError as exc:
+            print(f"error: cannot write {args.output}: {exc}", file=sys.stderr)
+            return 2
         print(f"wrote {args.output}", file=sys.stderr)
     return 0
 

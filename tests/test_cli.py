@@ -42,3 +42,17 @@ def test_malformed_input_exits_with_code_two(write_input, capsys):
 def test_unknown_scorer_is_rejected_by_argparse(sample_input):
     with pytest.raises(SystemExit):
         main([str(sample_input), "--scorer", "nope"])
+
+
+def test_non_utf8_input_exits_with_code_two(tmp_path, capsys):
+    bad = tmp_path / "latin1.txt"
+    bad.write_bytes(b"N N\xe9 E:1 W:1 R:1\n")
+    assert main([str(bad)]) == 2
+    assert "not UTF-8" in capsys.readouterr().err
+
+
+def test_unwritable_output_exits_with_code_two(sample_input, tmp_path, capsys):
+    out = tmp_path / "missing-dir" / "out.txt"
+    assert main([str(sample_input), "-o", str(out)]) == 2
+    assert "cannot write" in capsys.readouterr().err
+    assert not out.exists()
