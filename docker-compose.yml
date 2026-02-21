@@ -1,0 +1,23 @@
+services:
+  pearl:
+    build:
+      context: .
+      target: runtime
+    image: pearl-certification-assessment:local
+    # Mount an input directory to run against your own data:
+    #   docker compose run --rm pearl /data/my-input.txt --stdout --verify
+    volumes:
+      - ./data:/data:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  tests:
+    build:
+      context: .
+      target: test
+    image: pearl-certification-assessment:test
+    profiles: ["ci"]
+    command: ["python", "-m", "pytest"]

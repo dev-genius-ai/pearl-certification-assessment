@@ -1,0 +1,26 @@
+$ python main.py --verify
+verified: stable placement of 12 buyers across 3 neighborhoods
+wrote generated_output.txt
+
+$ cat generated_output.txt
+N0: H5(161) H11(154) H2(128) H4(122)
+N1: H9(23) H8(21) H7(20) H1(18)
+N2: H6(128) H3(120) H10(86) H0(83)
+
+$ python -m pearl.cli input.txt --stdout --verify
+verified: stable placement of 12 buyers across 3 neighborhoods
+N0: H5(161) H11(154) H2(128) H4(122)
+N1: H9(23) H8(21) H7(20) H1(18)
+N2: H6(128) H3(120) H10(86) H0(83)
+
+$ printf 'N N0 E:1 W:1
+' > /tmp/bad.txt && python main.py /tmp/bad.txt; echo "exit=$?"
+error: /tmp/bad.txt: line 1: expected 5 fields, got 4 in 'N N0 E:1 W:1'
+exit=2
+
+$ python main.py data/example-input.txt --stdout --verify
+verified: stable placement of 13 buyers across 4 neighborhoods
+Belmont: H10(171) H5(114) H8(103) H11(38)
+Fifeville: H7(100) H1(99) H4(98)
+Woolen: H6(144) H2(141) H9(123)
+Rugby: H3(99) H12(92) H0(89)

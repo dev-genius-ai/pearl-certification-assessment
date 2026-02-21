@@ -1,0 +1,34 @@
+[project]
+name = "pearl-certification-assessment"
+version = "1.0.0"
+description = "Stable placement of home buyers into Charlottesville neighborhoods by certification fit."
+requires-python = ">=3.10"   # dataclass(slots=True)
+dependencies = []                  # the application itself is standard library only
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[project.scripts]
+pearl = "pearl.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pearl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]

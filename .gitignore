@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage/
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+project_venv/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs, scratch and OS noise
+*.log
+logs/
+tmp/
+.DS_Store
+
+# Not part of this repository
+.github/

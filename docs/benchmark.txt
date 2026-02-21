@@ -1,0 +1,8 @@
+$ python scripts/benchmark.py
+# Python 3.14.5, Apple Silicon, single process, no warm cache.
+ neighborhoods   buyers     parse    assign    verify
+-----------------------------------------------------
+             3       12    0.000s    0.000s    0.000s
+            10     1000    0.003s    0.009s    0.008s
+            25    10000    0.046s    0.255s    0.238s
+            50    50000    0.352s    3.943s    3.586s

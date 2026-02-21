@@ -1,0 +1,20 @@
+# A second example: four neighborhoods and thirteen buyers, so the even split
+# is not exact. Capacities become 4/3/3/3 and nobody is dropped.
+N Belmont     E:8 W:5 R:6
+N Fifeville   E:4 W:9 R:3
+N Woolen      E:6 W:6 R:9
+N Rugby       E:9 W:3 R:5
+
+H H0  E:7 W:2 R:4 Rugby>Belmont>Woolen>Fifeville
+H H1  E:3 W:9 R:2 Fifeville>Woolen>Belmont>Rugby
+H H2  E:5 W:5 R:9 Woolen>Belmont>Rugby>Fifeville
+H H3  E:9 W:1 R:3 Rugby>Belmont>Woolen>Fifeville
+H H4  E:2 W:8 R:6 Fifeville>Woolen>Belmont>Rugby
+H H5  E:6 W:6 R:6 Belmont>Woolen>Rugby>Fifeville
+H H6  E:8 W:4 R:8 Woolen>Rugby>Belmont>Fifeville
+H H7  E:1 W:9 R:5 Fifeville>Woolen>Rugby>Belmont
+H H8  E:7 W:7 R:2 Belmont>Fifeville>Woolen>Rugby
+H H9  E:4 W:3 R:9 Woolen>Rugby>Fifeville>Belmont
+H H10 E:9 W:9 R:9 Belmont>Woolen>Fifeville>Rugby
+H H11 E:2 W:2 R:2 Rugby>Fifeville>Belmont>Woolen
+H H12 E:6 W:1 R:7 Rugby>Woolen>Belmont>Fifeville
