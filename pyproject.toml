@@ -6,7 +6,7 @@ requires-python = ">=3.10"   # dataclass(slots=True)
 dependencies = []                  # the application itself is standard library only
 
 [project.optional-dependencies]
-dev = ["pytest>=7.4", "ruff>=0.4"]
+dev = ["pytest>=9.2", "ruff>=0.17"]
 
 [project.scripts]
 pearl = "pearl.cli:main"

@@ -19,5 +19,5 @@ services:
       context: .
       target: test
     image: pearl-certification-assessment:test
-    profiles: ["ci"]
+    profiles: ["test"]
     command: ["python", "-m", "pytest"]
