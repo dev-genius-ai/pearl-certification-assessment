@@ -56,3 +56,20 @@ def test_unwritable_output_exits_with_code_two(sample_input, tmp_path, capsys):
     assert main([str(sample_input), "-o", str(out)]) == 2
     assert "cannot write" in capsys.readouterr().err
     assert not out.exists()
+
+
+def test_unplaced_buyers_are_named_on_stderr(write_input, capsys):
+    path = write_input(
+        "N N0 E:1 W:1 R:1\nN N1 E:1 W:1 R:1\nH HA E:9 W:9 R:9 N0>N1\nH HB E:1 W:1 R:1 N0\n"
+    )
+    assert main([str(path), "--stdout", "--verify"]) == 0
+    captured = capsys.readouterr()
+    assert "1 buyer(s) left unplaced" in captured.err
+    assert "HB" in captured.err
+    assert "stable placement of 1 buyers" in captured.err
+    assert captured.out == "N0: HA(27)\nN1:\n"
+
+
+def test_no_warning_when_everyone_is_placed(sample_input, capsys):
+    assert main([str(sample_input), "--stdout"]) == 0
+    assert "warning" not in capsys.readouterr().err

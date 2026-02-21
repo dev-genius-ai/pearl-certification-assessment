@@ -64,13 +64,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
+    placed = set(assignment.placed_buyers)
+    unplaced = [b.name for b in buyers if b.name not in placed]
+    if unplaced:
+        # Only possible with partial preference lists; the output omits them.
+        print(
+            f"warning: {len(unplaced)} buyer(s) left unplaced, every neighborhood they "
+            f"ranked was full of better fits: {' '.join(unplaced)}",
+            file=sys.stderr,
+        )
+
     if args.verify:
         blocking = find_blocking_pair(assignment, buyers, neighborhoods, scorer)
         if blocking is not None:
             print(f"error: unstable assignment: {blocking.describe()}", file=sys.stderr)
             return 1
         print(
-            f"verified: stable placement of {len(buyers)} buyers "
+            f"verified: stable placement of {len(placed)} buyers "
             f"across {len(neighborhoods)} neighborhoods",
             file=sys.stderr,
         )
