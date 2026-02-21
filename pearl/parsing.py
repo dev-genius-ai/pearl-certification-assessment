@@ -23,10 +23,11 @@ _AXIS = re.compile(r"^([A-Z]):(-?\d+)$")
 class InputError(ValueError):
     """Raised when the input file cannot be understood."""
 
-    def __init__(self, line_number: int, message: str, line: str = "") -> None:
+    def __init__(self, line_number: int | None, message: str, line: str = "") -> None:
         self.line_number = line_number
         detail = f" in {line.strip()!r}" if line.strip() else ""
-        super().__init__(f"line {line_number}: {message}{detail}")
+        where = f"line {line_number}: " if line_number is not None else ""
+        super().__init__(f"{where}{message}{detail}")
 
 
 def _parse_axes(tokens: Sequence[str], line_number: int, line: str) -> dict[str, int]:
@@ -79,9 +80,9 @@ def parse_lines(lines: Iterable[str]) -> tuple[list[Neighborhood], list[HomeBuye
                 raise InputError(line_number, str(exc), raw) from None
 
     if not neighborhoods:
-        raise InputError(0, "input contains no neighborhood (N) records")
+        raise InputError(None, "input contains no neighborhood (N) records")
     if not buyers:
-        raise InputError(0, "input contains no home buyer (H) records")
+        raise InputError(None, "input contains no home buyer (H) records")
     return neighborhoods, buyers
 
 

@@ -74,3 +74,10 @@ def test_input_without_neighborhoods_is_rejected():
 def test_input_without_buyers_is_rejected():
     with pytest.raises(InputError, match="no home buyer"):
         parse_lines(["N N0 E:1 W:1 R:1"])
+
+
+def test_whole_file_errors_carry_no_line_number():
+    with pytest.raises(InputError) as excinfo:
+        parse_lines(["# only a comment", ""])
+    assert excinfo.value.line_number is None
+    assert not str(excinfo.value).startswith("line")
