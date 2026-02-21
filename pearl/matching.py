@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import heapq
 from collections import deque
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from typing import NamedTuple
 
 from pearl.models import Assignment, HomeBuyer, Neighborhood, Placement
@@ -179,9 +179,3 @@ def is_stable(
 ) -> bool:
     """True when no buyer can improve on their placement. See the brief."""
     return find_blocking_pair(assignment, buyers, neighborhoods, scorer) is None
-
-
-def iter_placements(assignment: Assignment) -> Iterable[tuple[str, Placement]]:
-    for name, placed in assignment.placements.items():
-        for placement in placed:
-            yield name, placement

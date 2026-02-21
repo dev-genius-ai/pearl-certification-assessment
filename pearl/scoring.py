@@ -8,7 +8,7 @@ alternative with :func:`register_scorer` and select it with ``--scorer``.
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable
 from typing import Protocol
 
 from pearl.models import AXES, HomeBuyer, Neighborhood
@@ -66,8 +66,3 @@ def fit_matrix(
     lookup rather than an arithmetic pass over the axes.
     """
     return {buyer.name: {n.name: scorer(buyer, n) for n in neighborhoods} for buyer in buyers}
-
-
-def scores_for(fits: Mapping[str, Mapping[str, int]], neighborhood: str) -> dict[str, int]:
-    """Slice the fit matrix to one neighborhood: ``{buyer: fit}``."""
-    return {buyer: row[neighborhood] for buyer, row in fits.items()}
