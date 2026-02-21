@@ -105,6 +105,8 @@ def assign(
             next_choice[buyer] += 1
             rank = ranks[target][buyer]
             occupants = held[target]
+            if not room[target]:
+                continue  # fewer buyers than neighborhoods: this one takes nobody
             if len(occupants) < room[target]:
                 heapq.heappush(occupants, (-rank, buyer))
                 break
@@ -163,7 +165,7 @@ def find_blocking_pair(
                 break  # nothing below this is an improvement
             if occupancy.get(wanted, 0) < room[wanted]:
                 return BlockingPair(buyer.name, wanted, current, None)
-            worst = weakest[wanted]
+            worst = weakest.get(wanted)
             if worst is not None and ranks[wanted][buyer.name] < ranks[wanted][worst]:
                 return BlockingPair(buyer.name, wanted, current, worst)
     return None

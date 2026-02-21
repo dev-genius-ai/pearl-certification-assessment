@@ -145,3 +145,35 @@ def test_a_buyer_with_a_partial_preference_list_may_go_unplaced():
     assignment = assign(buyers, neighborhoods)
     assert assignment.neighborhood_of("HA") == "N0"
     assert assignment.neighborhood_of("HB") is None
+
+
+def test_fewer_buyers_than_neighborhoods_leaves_some_empty():
+    # Capacities come out 1/1/0 here, and both buyers rank the zero-capacity
+    # neighborhood first. That used to crash on an empty heap.
+    text = (
+        "N A E:1 W:1 R:1\nN B E:1 W:1 R:1\nN C E:1 W:1 R:1\n"
+        "H H0 E:1 W:1 R:1 C>A>B\nH H1 E:2 W:2 R:2 C>B>A\n"
+    )
+    neighborhoods, buyers = _load(text)
+    assignment = assign(buyers, neighborhoods)
+    assert assignment.placements["C"] == ()
+    assert sorted(assignment.placed_buyers) == ["H0", "H1"]
+    assert is_stable(assignment, buyers, neighborhoods)
+
+
+@pytest.mark.parametrize("seed", range(6))
+def test_more_neighborhoods_than_buyers_is_stable(seed):
+    neighborhoods, buyers = _load(make_input_text(7, 4, seed))
+    assignment = assign(buyers, neighborhoods)
+    assert sorted(assignment.placed_buyers) == sorted(b.name for b in buyers)
+    assert is_stable(assignment, buyers, neighborhoods)
+
+
+def test_blocking_pair_check_tolerates_a_neighborhood_missing_from_the_assignment():
+    # One buyer, two neighborhoods: N1 has capacity 0 and is absent from the
+    # assignment entirely. The check used to raise KeyError looking it up.
+    neighborhoods, buyers = _load("N N0 E:1 W:1 R:1\nN N1 E:1 W:1 R:1\nH HA E:1 W:1 R:1 N1>N0\n")
+    from pearl.models import Assignment, Placement
+
+    partial = Assignment({"N0": (Placement("HA", 3),)})
+    assert find_blocking_pair(partial, buyers, neighborhoods) is None
