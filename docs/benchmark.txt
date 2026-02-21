@@ -1,8 +1,8 @@
 $ python scripts/benchmark.py
-# Python 3.14.5, Apple Silicon, single process, no warm cache.
+# Python 3.12.16, python:3.12-slim under Docker on Apple Silicon (aarch64), 1.5 GB limit, single process.
  neighborhoods   buyers     parse    assign    verify
 -----------------------------------------------------
              3       12    0.000s    0.000s    0.000s
-            10     1000    0.003s    0.009s    0.008s
-            25    10000    0.046s    0.255s    0.238s
-            50    50000    0.352s    3.943s    3.586s
+            10     1000    0.003s    0.009s    0.007s
+            25    10000    0.050s    0.317s    0.284s
+            50    50000    0.430s    4.932s    4.330s
